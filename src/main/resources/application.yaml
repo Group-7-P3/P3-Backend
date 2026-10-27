@@ -1,3 +1,9 @@
 spring:
   application:
     name: subscriptionmanager
+  security:
+    user:
+      name: user
+      password: password
+      roles:
+        - ADMIN
