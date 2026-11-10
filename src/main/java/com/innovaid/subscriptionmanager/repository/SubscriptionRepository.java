@@ -2,6 +2,8 @@ package com.innovaid.subscriptionmanager.repository;
 
 import com.innovaid.subscriptionmanager.model.Subscription;
 
+import java.util.List;
+
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,6 +29,7 @@ public class SubscriptionRepository {
         );
     }
 
+    
     public Subscription getSubscription(int licenseKey){
         Subscription subscription = 
         jdbcTemplate.queryForObject(
@@ -36,6 +39,18 @@ public class SubscriptionRepository {
         );
         return subscription;
     }
+
+    // Looper over alle subscriptions på en userId og samler dem i en liste.
+    public List<Subscription> getSubscriptionsForUser(int userId){
+        List<Subscription> subscriptions = 
+        jdbcTemplate.query(
+            "SELECT * FROM subscription WHERE user_id = ?", 
+            new BeanPropertyRowMapper<>(Subscription.class),
+            userId
+        );
+        return subscriptions;
+    }
+
 
 
 
