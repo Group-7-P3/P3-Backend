@@ -1,7 +1,8 @@
 package com.innovaid.subscriptionmanager.config;
 
-import org.springframework.beans.factory.annotation.Configurable;
+
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -10,7 +11,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.innovaid.subscriptionmanager.security.JwtAuthenticationFilter;
 
-@Configurable
+@Configuration 
 @EnableWebSecurity
 public class SecurityConfig {
 
@@ -28,7 +29,8 @@ public class SecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No sessions
         )
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/**").permitAll() // Public login/register endpoints
+          // "/api/subscriptions" og "/error" skal FJERNES ved final release. KUN til testing!
+            .requestMatchers("/api/auth/**", "/api/subscriptions/**", "/error").permitAll() // Public login/register endpoints
             .anyRequest().authenticated())
         // Insert your custom token filter before the standard authentication filter
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

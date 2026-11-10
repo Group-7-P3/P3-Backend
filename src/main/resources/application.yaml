@@ -1,6 +1,15 @@
+logging:
+  level:
+    org.springframework.security: DEBUG
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: subscriptionmanager
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   security:
     user:
       name: user
