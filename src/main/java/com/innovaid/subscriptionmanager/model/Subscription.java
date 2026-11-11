@@ -3,14 +3,13 @@ package com.innovaid.subscriptionmanager.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import org.springframework.cglib.core.Local;
 
 // Dummy data
 public class Subscription{
 
     private int license_key;
     private int userId;
-    private int type;
+    private SubscriptionType type;
     private int maxDevices;
     private LocalDateTime createdAt; // 
     private LocalDateTime updatedAt;
@@ -20,7 +19,7 @@ public class Subscription{
     Subscription(
     int license_key,
     int userId,
-    int type,
+    SubscriptionType type,
     int maxDevices,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
@@ -50,7 +49,7 @@ public class Subscription{
         return this.userId;
     }
 
-    public int getType(){
+    public SubscriptionType getType(){
         return this.type;
     }
 
@@ -84,7 +83,7 @@ public class Subscription{
         this.userId = userId;
     }
 
-    public void setType(int type){
+    public void setType(SubscriptionType type){
         this.type = type;
     }
 
@@ -109,3 +108,4 @@ public class Subscription{
     }
 
 }
+

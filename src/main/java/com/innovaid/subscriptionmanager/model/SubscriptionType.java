@@ -1,6 +1,8 @@
 package com.innovaid.subscriptionmanager.model;
 
-public enum SubscriptionTypes {
+import com.fasterxml.jackson.annotation.JsonValue;
+
+public enum SubscriptionType {
     HOME("home"),
     HOME_PLUS("home+"),
     PRO("pro"),
@@ -8,20 +10,23 @@ public enum SubscriptionTypes {
     
     private final String type;
 
-    SubscriptionTypes(String type){
+    SubscriptionType(String type){
         this.type = type;
     }
 
-    public String getType(){
+    @JsonValue // For Spring til at bruge funktionen når 
+    public String getDbTypeValue(){
         return this.type;
     }
 
-    public static SubscriptionTypes getTypeFromString(String text){
-        for (SubscriptionTypes value : SubscriptionTypes.values()){
+    public static SubscriptionType getTypeFromString(String text){
+        for (SubscriptionType value : SubscriptionType.values()){
             if (value.type.equals(text)){
                 return value;
             }
         }
         throw new IllegalArgumentException("Unknown subscription type: " + text);
     }
+
+    
 }

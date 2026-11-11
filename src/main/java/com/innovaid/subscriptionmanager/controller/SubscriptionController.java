@@ -13,8 +13,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import com.innovaid.subscriptionmanager.model.CreateSubscriptionRequest;
 import com.innovaid.subscriptionmanager.model.Subscription;
 import com.innovaid.subscriptionmanager.repository.SubscriptionRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/subscriptions")
@@ -26,10 +29,10 @@ public class SubscriptionController {
         this.subscriptionRepository = subscriptionRepository;
     }
 
+    // @Valid checker om request body's værdier passer ind i CreateSubscriptionRequest recorden. Ellers rejecter den.
     @PostMapping
-    public Subscription createSubscription(@RequestBody Subscription subscription){
-        subscriptionRepository.saveSubscription(subscription);
-        return subscription;
+    public void createSubscription(@Valid @RequestBody CreateSubscriptionRequest subscriptionRequest ){
+        subscriptionRepository.saveSubscription(subscriptionRequest);
     }
 
     @GetMapping("/{licenseKey}")
@@ -44,10 +47,17 @@ public class SubscriptionController {
         } 
     }
 
+
     @GetMapping
     public List<Subscription> getSubscriptionsForUser(@RequestParam int userId){
         List<Subscription> subscriptions = subscriptionRepository.getSubscriptionsForUser(userId);
         return subscriptions;
+    }
+
+    // Product til subscription assigner
+    @PostMapping("/{licenseKey}/assignProduct")
+    public void assignProduct(@PathVariable int licenseKey, @RequestParam int serialNumber){
+        subscriptionRepository.assignProduct(licenseKey, serialNumber);
     }
     
 }
