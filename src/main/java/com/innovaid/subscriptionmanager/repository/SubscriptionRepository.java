@@ -87,6 +87,18 @@ public class SubscriptionRepository {
         return subscription;
     }
 
+    public Boolean isSubscriptionExpired(int licenseKey){
+        Subscription subscription = getSubscription(licenseKey);
+        boolean expired;
+        if (LocalDate.now().isAfter(subscription.getExpiresAt())){
+            expired = true;
+        }
+        else {
+            expired = false;
+        }
+        return expired; 
+    }
+
     // Looper over alle subscriptions på en userId og samler dem i en liste.
     public List<Subscription> getSubscriptionsForUser(int userId){
         List<Subscription> subscriptions = 
@@ -97,12 +109,5 @@ public class SubscriptionRepository {
         );
         return subscriptions;
     }
-
-    
-
-
-
-
-    
 
 }

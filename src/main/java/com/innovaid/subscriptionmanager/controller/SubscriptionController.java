@@ -59,11 +59,24 @@ public class SubscriptionController {
     // Product til subscription assigner
     @PostMapping("/{licenseKey}/assignProduct")
     public void assignProduct(@PathVariable int licenseKey, @RequestParam int serialNumber){
-        
+        // Check om subscription er udløbet
+        boolean expired;
+        try {
+            expired = subscriptionRepository.isSubscriptionExpired(licenseKey);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find the license key in database");
+        }
+        if (expired == true){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The subscription belonging to this license key is expired");
+        }
+
+        // Check om license key og serial number allerede er linked
         if (subscriptionRepository.isLicenseKeyAndSerialNumberLinked(licenseKey, serialNumber) == true){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This license key and serial number are already linked");
         }
 
+        // Check om serial number allerede er linked
         if (subscriptionRepository.isSerialNumberLinked(serialNumber) == true){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This serial number is already linked to a license");
         }
@@ -72,8 +85,13 @@ public class SubscriptionController {
             subscriptionRepository.assignProduct(licenseKey, serialNumber);
         }
 
+        // Håndterer det meget usandsynlige edge case af to assignments af de samme produkt og licens key bliver sendt på præcis samme tid.
+        catch (DuplicateKeyException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This license key and serial number are already linked");
+        }
+
         catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find either license key or serial number in database");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find the serial number in database");
         }
     }
 }
