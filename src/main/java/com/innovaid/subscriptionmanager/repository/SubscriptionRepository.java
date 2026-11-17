@@ -58,6 +58,25 @@ public class SubscriptionRepository {
     }
 
     
+
+    public boolean isSerialNumberLinked(int serialNumber){
+        boolean exists = jdbcTemplate.queryForObject(
+            "SELECT EXISTS (SELECT 1 FROM subscription_to_product WHERE serial_number = ?)",
+            Boolean.class,
+            serialNumber);
+        return exists;
+    }
+
+    public boolean isLicenseKeyAndSerialNumberLinked(int licenseKey, int serialNumber){
+        boolean exists = jdbcTemplate.queryForObject(
+            "SELECT EXISTS (SELECT 1 FROM subscription_to_product WHERE license_key = ? AND serial_number = ?)",
+            Boolean.class,
+            licenseKey,
+            serialNumber);
+        return exists;
+    }
+
+    
     public Subscription getSubscription(int licenseKey){
         Subscription subscription = 
         jdbcTemplate.queryForObject(

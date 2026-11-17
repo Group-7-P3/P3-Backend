@@ -1,5 +1,7 @@
 package com.innovaid.subscriptionmanager.controller;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +59,21 @@ public class SubscriptionController {
     // Product til subscription assigner
     @PostMapping("/{licenseKey}/assignProduct")
     public void assignProduct(@PathVariable int licenseKey, @RequestParam int serialNumber){
-        subscriptionRepository.assignProduct(licenseKey, serialNumber);
+        
+        if (subscriptionRepository.isLicenseKeyAndSerialNumberLinked(licenseKey, serialNumber) == true){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This license key and serial number are already linked");
+        }
+
+        if (subscriptionRepository.isSerialNumberLinked(serialNumber) == true){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This serial number is already linked to a license");
+        }
+
+        try {
+            subscriptionRepository.assignProduct(licenseKey, serialNumber);
+        }
+
+        catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find either license key or serial number in database");
+        }
     }
-    
 }

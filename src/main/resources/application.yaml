@@ -16,3 +16,6 @@ spring:
       password: password
       roles:
         - ADMIN
+  web:
+    error:
+      include-message: always

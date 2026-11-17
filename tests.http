@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8080/api/subscriptions
+
+### Test 1;
+POST {{baseUrl}}/274472/assignProduct?serialNumber=31816
