@@ -45,8 +45,20 @@ public class SubscriptionController {
         }
         // Catch license_key ikke eksisterer
         catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subscription not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "License key not found");
         } 
+    }
+    
+    @GetMapping("/{licenseKey}/isExpired")
+    public Boolean isSubscriptionExpired(@PathVariable int licenseKey){
+        boolean expired;
+        try {
+            expired = subscriptionRepository.isSubscriptionExpired(licenseKey);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "License key not found");
+        }
+        return expired;
     }
 
 

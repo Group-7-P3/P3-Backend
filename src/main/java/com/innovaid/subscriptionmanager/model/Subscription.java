@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 // Dummy data
 public class Subscription{
 
-    private int license_key;
+    private int licenseKey;
     private int userId;
     private SubscriptionType type;
     private int maxDevices;
@@ -17,16 +17,16 @@ public class Subscription{
     private boolean autoRenew;
 
     Subscription(
-    int license_key,
-    int userId,
-    SubscriptionType type,
-    int maxDevices,
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt,
-    LocalDate expiresAt,
-    boolean autoRenew
+        int licenseKey,
+        int userId,
+        SubscriptionType type,
+        int maxDevices,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt,
+        LocalDate expiresAt,
+        boolean autoRenew
     ){
-        this.license_key = license_key;
+        this.licenseKey = licenseKey;
         this.userId = userId;
         this.type = type;
         this.maxDevices = maxDevices;
@@ -42,7 +42,7 @@ public class Subscription{
     // Getter functions to keep fields private;
 
     public int getLicenseKey(){
-        return this.license_key;
+        return this.licenseKey;
     }
 
     public int getUserId(){
@@ -75,8 +75,8 @@ public class Subscription{
 
     // Setter functions to keep fields private;
 
-    public void setLicenseKey(int license_key){
-        this.license_key = license_key;
+    public void setLicenseKey(int licenseKey){
+        this.licenseKey = licenseKey;
     }
 
     public void setUserId(int userId){

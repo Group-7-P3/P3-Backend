@@ -14,7 +14,7 @@ public enum SubscriptionType {
         this.type = type;
     }
 
-    @JsonValue // For Spring til at bruge funktionen når 
+    @JsonValue // Får Spring til at bruge funktionen når 
     public String getDbTypeValue(){
         return this.type;
     }
@@ -27,6 +27,4 @@ public enum SubscriptionType {
         }
         throw new IllegalArgumentException("Unknown subscription type: " + text);
     }
-
-    
 }

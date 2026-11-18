@@ -30,7 +30,7 @@ public class SecurityConfig {
         )
         .authorizeHttpRequests(auth -> auth
           // "/api/subscriptions" og "/error" skal FJERNES ved final release. KUN til testing!
-            .requestMatchers("/api/auth/**", "/api/subscriptions/**", "/error").permitAll() // Public login/register endpoints
+            .requestMatchers("/api/auth/**", "/api/subscriptions/**", "/error", "/api/product/**").permitAll() // Public login/register endpoints
             .anyRequest().authenticated())
         // Insert your custom token filter before the standard authentication filter
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
