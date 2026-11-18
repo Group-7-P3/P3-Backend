@@ -39,4 +39,12 @@ public class ProductRepository {
         );
         return product;
     }
+
+    public void updateProductStatus(int serialNumber, ProductStatusType status){
+        jdbcTemplate.update(
+            "UPDATE product SET status = ?::product_status WHERE serial_number = ?",
+            status.getDbProductStatusType(),
+            serialNumber
+        );
+    }
 }
